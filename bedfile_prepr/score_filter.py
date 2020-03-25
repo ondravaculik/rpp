@@ -21,7 +21,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 for bed_f in bed_files.glob('*.bed'):
     bedfile = pybedtools.BedTool(bed_f)
     protein = Path(bed_f).stem
-    output_file_name = protein + '_onlytrue_midpoints_score_filtered.bed'
+    output_file_name = protein + '_score_filtered.bed'
     output_file_path = output_dir / output_file_name
     
     pybedtools.BedTool(position for position in bedfile if float(position.score) >= score_treshold)\
