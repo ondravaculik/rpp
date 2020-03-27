@@ -5,7 +5,6 @@ from pathlib import Path
 
 
 def window(line):
-    np.random.seed(window_seed)
     start = line.start
     stop = line.stop
     length = stop - start
@@ -33,15 +32,12 @@ parser.add_argument('--infile', '-in', type=str, required=True,
     help='Absolute Path to bedfiles with protein binding sites positions')
 parser.add_argument('--window_size', '-ws', type=int, default=50,
     help='Define window size for each bedfile position, default=50')
-parser.add_argument('--window_seed', '-seed', type=int, default=101,
-    help='Define seed for np.random to get reproducible data, default=101')
 parser.add_argument('--outfile', '-out', type=str, required=True,
     help='Specify Path to output folder or use stdout by default')                
 args = parser.parse_args()
 
 
 window_size = args.window_size
-window_seed = args.window_seed
 
 bed_files = Path(args.infile)
 output_dir = Path(args.outfile)
