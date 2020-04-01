@@ -31,7 +31,7 @@ output_format = args.format
 
 for bedfile in bed_files.glob('*.bed'):
     bed_path = Path(bedfile)
-    output_file_name = bed_path.stem + f'_with_sequences.bed'
+    output_file_name = bed_path.stem + f'_with_sequences.fa'
     output_file_path = output_dir / output_file_name
 
     pybedtools.BedTool(bedfile)\
