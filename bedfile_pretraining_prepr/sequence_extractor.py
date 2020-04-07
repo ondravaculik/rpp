@@ -12,7 +12,7 @@ parser.add_argument('--reference', '-r', type=str, required=True,
     necessary chromosomes')
 parser.add_argument('--strandness', '-s', type=bool, default=True,
     help='Apply stradness? Default = True')
-parser.add_argument('--format', '-f', type=bool, default=False,
+parser.add_argument('--format', '-f', type=bool, default=True,
     help='Choose the format of output bed file. By default (False) are header\
     and extracted sequence on the separate following lines')
 parser.add_argument('--outfile', '-out', type=str, required=True,
@@ -31,7 +31,7 @@ output_format = args.format
 
 for bedfile in bed_files.glob('*.bed'):
     bed_path = Path(bedfile)
-    output_file_name = bed_path.stem + f'_with_sequences.fa'
+    output_file_name = bed_path.stem + f'_with_sequences.bed'
     output_file_path = output_dir / output_file_name
 
     pybedtools.BedTool(bedfile)\
