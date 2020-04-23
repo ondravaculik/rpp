@@ -16,9 +16,9 @@ def createProbabilityVector(pwm):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--pwm', '-pw', type=str,
+parser.add_argument('--prob_weight_matrix', '-pwm', type=str, required=True,
     help='Relative or absolute path to the folder\
-         containing one or multiple PWMs', required=True)
+         containing one or multiple PWMs')
 parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
