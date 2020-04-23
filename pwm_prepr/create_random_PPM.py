@@ -4,7 +4,7 @@ import datetime
 from pathlib import Path
 
 
-def randomppmCreator(seq_length):  # random PPM creating
+def randomPPMcreator(seq_length):  
     sequence_ppm_arrays = [np.random.dirichlet(
         np.ones(4), size=1) for i in range(0, seq_length)]
     sequenceppm = [(ppm[0].tolist()) for ppm in sequence_ppm_arrays]
@@ -21,10 +21,12 @@ parser.add_argument('--seq_length', '-sl', default=8, type=int,
 args = parser.parse_args()
 
 
+seq_length = args.seq_length
+
 random_ppms = {}
 for i in range(args.number):
     header = f'random_{i+1}'
-    ppm = randomppmCreator(args.seq_length)
+    ppm = randomPPMcreator(seq_length)
     random_ppms[header] = ppm
 
 # preparing output files and folders
