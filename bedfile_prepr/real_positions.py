@@ -7,9 +7,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--same_strands_only', '-sso', type=bool, default=True, 
     help='Intersect only positions on the same strands? default = True')
 parser.add_argument('--transcriptome', '-tr', type=str, required=True, 
-    help='Absolute path to the transcriptome bedfile')
+    help='Path to the transcriptome bedfile')
 parser.add_argument('--infile', '-in', type=str, required=True, 
-    help='Absolute path to folder with bedfiles containing binding sites positions')
+    help='Path to folder with bedfiles containing binding sites positions')
 parser.add_argument('--outfile', '-out', type=str, default='.', 
     help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
