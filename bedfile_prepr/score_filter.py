@@ -8,8 +8,8 @@ parser.add_argument('--score_treshold', '-sc', type=float, default=6.,
     help='Define treshold for filtering out by score, default = 6.')
 parser.add_argument('--infile', '-in', type=str, required=True, 
     help='Absolute path to the bedfiles with binding sites positions')
-parser.add_argument('--outfile', '-out', type=str, required=True, 
-    help='Specify absolute or relative path to output directory')               
+parser.add_argument('--outfile', '-out', type=str, default='.', 
+    help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
 
 
