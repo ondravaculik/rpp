@@ -11,7 +11,7 @@ parser.add_argument('--transcriptome', '-tr', type=str, required=True,
 parser.add_argument('--infile', '-in', type=str, required=True, 
     help='Absolute path to folder with bedfiles containing binding sites positions')
 parser.add_argument('--outfile', '-out', type=str, default='.', 
-    help='Specify absolute path to output directory')               
+    help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
 
 

@@ -5,19 +5,14 @@ import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--prepr_ref', '-pr', type=str,
-                    help='Relative or absolute path to the folder containing\
-             one or multiple preprocessed reference fasta files', required=True)
-parser.add_argument('--output_dir', '-od', type=str, help='Specify\
-     working directory, where output should be placed', default='.')
+    help='Relative or absolute path to the folder containing\
+         one or multiple preprocessed reference fasta files', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
-# control, whether there's stdin or users option
-if args.prepr_ref == '-':
-    for line in sys.stdin:
-        ref_files = Path(line.rstrip())
-        break
-else:
-    ref_files = Path(args.prepr_ref)
+
+ref_files = Path(args.prepr_ref)
 
 # creating dict with all references
 all_references = {}
@@ -49,7 +44,7 @@ for name, length in all_references.items():
         remainder -= proportionality_of_positions
     ref_proportionality[name] = proportionality_of_positions
 
-p = Path(args.output_dir)
+p = Path(args.outfile)
 dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
 
 # preparing output files and folders

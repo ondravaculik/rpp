@@ -3,15 +3,6 @@ import argparse
 import numpy as np
 import datetime
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--pwm', '-pw', type=str,
-                    help='Relative or absolute path to the folder\
-                     containing one or multiple PWMs', required=True)
-parser.add_argument('--output_dir', '-od', type=str, help='Specify\
-     working directory, where output should be placed, by either\
-     relative or absolute PATH', default='.')
-args = parser.parse_args()
-
 
 def get_ppm_from_pwm(position_weight):
     return (2**(position_weight))/4
@@ -24,10 +15,18 @@ def createProbabilityVector(pwm):
     return probabilityVector
 
 
-p = Path(args.output_dir)
+parser = argparse.ArgumentParser()
+parser.add_argument('--pwm', '-pw', type=str,
+    help='Relative or absolute path to the folder\
+         containing one or multiple PWMs', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
+args = parser.parse_args()
+
+
+p = Path(args.outfile)
 input_file = Path(args.pwm)
 suffix = input_file.suffix
-
 
 # creating dict of np.arrays with all users PWMs
 all_pwms = {}
@@ -59,13 +58,11 @@ processed_ppms = {}
 for name, pwm in all_pwms.items():
     processed_ppms[name] = np.asfarray(createProbabilityVector(pwm))
 
-
 dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
 
 # preparing output files and folders
 output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', f'{dt}')
 output_folder.mkdir(parents=True, exist_ok=True)
-
 
 # creating output file
 for header, ppm in processed_ppms.items():

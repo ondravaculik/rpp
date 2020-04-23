@@ -6,17 +6,15 @@ import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--ppm_directory', '-ppmd', type=str,
-                    help='Relative or absolute path to the folder\
-                     containing one or multiple PPMs', required=True)
-parser.add_argument('--output_directory', '-od', type=str, help='Specify\
-     working directory, where output should be placed, by either\
-     relative or absolute PATH', default='.')
+    help='Relative or absolute path to the folder\
+         containing one or multiple PPMs', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
 
-p = Path(args.output_directory)
+p = Path(args.outfile)
 ppm_files = Path(args.ppm_directory)
-
 
 # creating dict of np.arrays with all users PPMs
 # extracting protein_name from the name of PPM file

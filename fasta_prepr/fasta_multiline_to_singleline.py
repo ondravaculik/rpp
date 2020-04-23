@@ -1,19 +1,18 @@
 from pathlib import Path
 import datetime
-import argparse, sys
+import argparse
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--reference', '-r', type=str,
-                    help='Relative or absolute path to the folder containing\
-             one or multiple reference fasta files', required=True)
-parser.add_argument('--output_dir', '-od', type=str, help='Specify\
-     working directory, where output should be placed, by either\
-     relative or absolute PATH', default='.')
+    help='Relative or absolute path to the folder containing\
+         one or multiple reference fasta files', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
 
-p = Path(args.output_dir)
+p = Path(args.outfile)
 ref_files = Path(args.reference)
 
 # preparing files and folders
@@ -45,6 +44,3 @@ for reference in ref_files.glob('*.fa*'):
     with output_file_path.open("w", encoding="utf-8") as of:
         of.write(f'>{header}\n')
         of.write(f'{sequence}')
-
-# pass path to processed files into the stdin 
-sys.stdout.write(str(output_folder))

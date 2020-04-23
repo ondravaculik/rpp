@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--infile', '-in', type=str, required=True,
     help='Absolute Path to bedfiles with binding sites positions')
 parser.add_argument('--outfile', '-out', type=str, default='.',
-    help='Specify Path to output directory')                
+    help='Specify absolute or relative path to output directory, default = .')                
 args = parser.parse_args()
 
 

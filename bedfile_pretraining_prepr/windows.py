@@ -32,8 +32,8 @@ parser.add_argument('--infile', '-in', type=str, required=True,
     help='Absolute Path to bedfiles with protein binding sites positions')
 parser.add_argument('--window_size', '-ws', type=int, default=50,
     help='Define window size for each bedfile position, default=50')
-parser.add_argument('--outfile', '-out', type=str, required=True,
-    help='Specify Path to output folder or use stdout by default')                
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')                
 args = parser.parse_args()
 
 
@@ -47,6 +47,7 @@ for bedfile in bed_files.glob('*.bed'):
     bed_path = Path(bedfile)
     output_file_name = bed_path.stem + f'_window-{window_size}.bed'
     output_file_path = output_dir / output_file_name
+
     pybedtools.BedTool(bedfile)\
         .each(window)\
         .saveas(output_file_path)

@@ -141,23 +141,28 @@ def positions_generator(name, ppm, datasize, alphabet, positions_by_reference,
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--alphabet', '-a', default=['A', 'C', 'G', 'T'],
-    type=List[str], help='List of nucleotides in the order corresponding to the PWM; def. ACGT')
+    type=List[str], help='List of nucleotides in the order corresponding to the PWM;\
+         default = ACGT')
 parser.add_argument('--datasize', '-ds', default=10000, type=int,
-    help='Number that specifies how many training positions user wants to create')
+    help='Number that specifies how many training positions user wants to create, \
+        default = 10000')
 parser.add_argument('--reference', '-r', type=str,
-    help='Relative or absolute path to the folder containing reference fasta files', required=True)
-parser.add_argument('--output_dir', '-od', type=str, help='Specify working directory, where output should be placed,\
-    by either relative or absolute PATH', default='.')
+    help='Relative or absolute path to the folder containing preprocessed \
+        reference fasta files', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 parser.add_argument('--position_probability_matrix', '-ppm', type=str, required=True,
-    help='Name of the folder containing one or more preprocessed PPMs; random PPM is created by default')
+    help='Name of the folder containing one or more preprocessed PPMs; \
+        random PPM is created by default')
 parser.add_argument('--proportions', '-prop', type=str, required=True,
-    help='Relative or absolute path to the folder containing text file with reference names and their proportions')                    
+    help='Relative or absolute path to the folder containing text file \
+        with reference names and their proportions')                    
 args = parser.parse_args()
 
 
 # preparing files and folders
 dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
-p = Path(args.output_dir)
+p = Path(args.outfile)
 output_dirs = Path(f'{p}', 'results', 'final_random_positions', f'{dt}')
 output_dirs.mkdir(parents=True, exist_ok=True)
 

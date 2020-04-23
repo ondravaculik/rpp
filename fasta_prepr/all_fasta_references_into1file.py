@@ -5,15 +5,14 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--reference', '-r', type=str,
-                    help='Relative or absolute path to the folder containing\
-             one or multiple reference fasta files', required=True)
-parser.add_argument('--output_dir', '-od', type=str, help='Specify\
-     working directory, where output should be placed, by either\
-     relative or absolute PATH', default='.')
+    help='Relative or absolute path to the folder containing\
+         one or multiple reference fasta files', required=True)
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
 
-p = Path(args.output_dir)
+p = Path(args.outfile)
 ref_files = Path(args.reference)
 
 # creating dict with all references
