@@ -16,6 +16,14 @@ def by_chr_filtering(feature, chr_list, inverse):
             return feature
 
 
+def score_filtering(feature, score_treshold):
+    """
+    the function returns only positions with score equal or higher than specified threshold
+    """
+    if float(feature.score) >= score_treshold:
+        return feature
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--chromosomes', '-chr', type=str, required=True,
     help='List of chromosomes delimited by comma, which will\
@@ -34,44 +42,42 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
-p = Path(args.output_file)
+p = Path(args.outfile)
 input_bed_files = Path(args.infile)
 output_dir = Path(args.outfile)
 output_dir.mkdir(parents=True, exist_ok=True)
 
 intermediate_out = None
 chr_list = args.chromosomes.split(',')
+inverse = args.inverse 
 
-if args.inverse == False:
+if inverse == False:
     if args.intermediate_out != None:
-        intermediate_out = 'inversed_filtered_only_false.bed'
-    final_out = 'inversed_midpoints_false.bed'
+        intermediate_out = 'inversed_false_filtered_only_true'
+    final_out = 'inversed_false_midpoints'
 else:
     if args.intermediate_out != None:
-        intermediate_out = 'inversed_filtered_only_true.bed'
-    final_out = 'inversed_midpoints_true.bed'
+        intermediate_out = 'inversed_true_filtered_only_true'
+    final_out = 'inversed_true_midpoints'
 
 score_treshold = args.score_treshold
 
-if intermediate_out != None:
-    intermediate_output_file_path = output_dir / f'{intermediate_out}'
-else:
-    intermediate_output_file_path = None
-
-if score_treshold == 0.:
-    final_output_file_path = output_dir / f'{final_out}'
-else:
-    final_output_file_path = output_dir / f'{final_out}_score_filtered'
-
 for bed_f in input_bed_files.glob('*.bed'):
-    bedfile = pybedtools.BedTool(bed_f)
     protein = Path(bed_f).stem
-    output_file_name = protein + '_score_filtered.bed'
-    output_file_path = output_dir / output_file_name
 
-    pybedtools.BedTool(args.input_file)\
-        .filter(by_chr_filtering, chr_list, args.inverse)\
+    if intermediate_out != None:
+        intermediate_output_file_path = output_dir / f'{protein}_{intermediate_out}.bed'
+    else:
+        intermediate_output_file_path = None
+
+    if score_treshold == 0.:
+        final_output_file_path = output_dir / f'{protein}_{final_out}.bed'
+    else:
+        final_output_file_path = output_dir / f'{protein}_{final_out}_score_filtered.bed'
+
+    bedfile = pybedtools.BedTool(bed_f)
+    bedfile.filter(by_chr_filtering, chr_list, inverse)\
         .saveas(intermediate_output_file_path)\
-        .each(position for position in bedfile if float(position.score) >= score_treshold)\
+        .filter(score_filtering, score_treshold)\
         .each(midpoint)\
         .saveas(final_output_file_path)
