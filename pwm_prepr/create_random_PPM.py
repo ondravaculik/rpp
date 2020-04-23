@@ -14,10 +14,10 @@ def randomPPMcreator(seq_length):
 parser = argparse.ArgumentParser()
 parser.add_argument('--number', '-n', type=int,
     help='Number of random PPMs user wants to create', default=1)
-parser.add_argument('--outfile', '-out', type=str, default='.',
-    help='Specify absolute or relative path to output directory, default = .')
-parser.add_argument('--seq_length', '-sl', default=8, type=int,
+parser.add_argument('--seq_length', '-sl', default=7, type=int,
     help='Number that specifies how long will be the random training sequence')
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')    
 args = parser.parse_args()
 
 
