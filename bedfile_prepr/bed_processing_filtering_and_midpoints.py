@@ -2,7 +2,6 @@ import argparse
 import pybedtools
 from pybedtools.featurefuncs import midpoint
 from pathlib import Path
-from typing import List
 
 
 def by_chr_filtering(feature, chr_list, inverse):
