@@ -10,9 +10,10 @@ parser.add_argument('--transcriptome', '-tr', type=str, required=True,
     help='Absolute path to the transcriptome bedfile')
 parser.add_argument('--infile', '-in', type=str, required=True, 
     help='Absolute path to folder with bedfiles containing binding sites positions')
-parser.add_argument('--outfile', '-out', type=str, required=True, 
-    help='Specify absolute path to output folder')               
+parser.add_argument('--outfile', '-out', type=str, default='.', 
+    help='Specify absolute path to output directory')               
 args = parser.parse_args()
+
 
 transcriptome_path = Path(args.transcriptome)
 bed_files = Path(args.infile)
@@ -25,6 +26,7 @@ for bed_f in bed_files.glob('*.bed'):
     protein = Path(bed_f).stem
     output_file_name = protein + '_onlytrue.bed'
     output_file_path = output_dir / output_file_name
+    
     if args.same_strands_only == True:
         bedfile.intersect(transcriptome, u=True, wa=True, s=True)\
         .saveas(output_file_path)
