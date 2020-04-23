@@ -2,18 +2,22 @@ import argparse
 import pybedtools
 from pybedtools.featurefuncs import midpoint
 from pathlib import Path
+from typing import List
 
 
 def by_chr_filtering(feature, chr_list, inverse):
     """ 
     the function takes bedfile and returns new bedfile with specified chrs only 
     """  
-    if args.inverse == False:
-        if feature.chrom in chr_list:
-            return feature
+    if chr_list == []:
+        return feature
     else:
-        if feature.chrom not in chr_list:
-            return feature
+        if args.inverse == False:
+            if feature.chrom in chr_list:
+                return feature
+        else:
+            if feature.chrom not in chr_list:
+                return feature
 
 
 def score_filtering(feature, score_treshold):
@@ -25,8 +29,8 @@ def score_filtering(feature, score_treshold):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--chromosomes', '-chr', type=str, required=True,
-    help='List of chromosomes delimited by comma, which will\
+parser.add_argument('--chromosomes', '-chr', type=str, default='',
+    help='Optional list of chromosomes delimited by comma, which will\
          be filtered out from the bedfile')
 parser.add_argument('--inverse', '-i', type=bool, default=False, 
     help='Exclude the specified chromosomes? default = False')
@@ -48,17 +52,25 @@ output_dir = Path(args.outfile)
 output_dir.mkdir(parents=True, exist_ok=True)
 
 intermediate_out = None
-chr_list = args.chromosomes.split(',')
 inverse = args.inverse 
 
-if inverse == False:
-    if args.intermediate_out != None:
-        intermediate_out = 'inversed_false_filtered_only_true'
-    final_out = 'inversed_false_midpoints'
+if args.chromosomes == '':
+    chr_list = []
 else:
-    if args.intermediate_out != None:
-        intermediate_out = 'inversed_true_filtered_only_true'
-    final_out = 'inversed_true_midpoints'
+    chr_list = args.chromosomes.split(',')
+
+if chr_list != []:
+    if inverse == False:
+        if args.intermediate_out != None:
+            intermediate_out = 'inversed_false_filtered_only_true'
+        final_out = 'inversed_false_filtered_by_chr_midpoints'
+    else:
+        if args.intermediate_out != None:
+            intermediate_out = 'inversed_true_filtered_only_true'
+        final_out = 'inversed_true_filtered_by_chr_midpoints'
+else:
+    intermediate_out = None
+    final_out = 'midpoints'
 
 score_treshold = args.score_treshold
 
