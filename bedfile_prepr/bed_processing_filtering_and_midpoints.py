@@ -33,6 +33,8 @@ parser.add_argument('--chromosomes', '-chr', type=str, default='',
          be filtered out from the bedfile')
 parser.add_argument('--inverse', '-i', type=bool, default=False, 
     help='Exclude the specified chromosomes? default = False')
+parser.add_argument('--midpoints', '-mid', type=bool, default=False,
+    help='Processed intervals into midpoints? default = False')
 parser.add_argument('--score_treshold', '-sc', type=float, default=0., 
     help='Define treshold for filtering out by score, default = 0.')
 parser.add_argument('--infile', '-in', type=str, required=True, 
@@ -52,6 +54,12 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 intermediate_out = None
 inverse = args.inverse 
+midpoint_arg = args.midpoints
+
+if midpoint_arg == True:
+    is_midpoint = '_midpoints'
+else:
+    is_midpoint = ''
 
 if args.chromosomes == '':
     chr_list = []
@@ -62,14 +70,14 @@ if chr_list != []:
     if inverse == False:
         if args.intermediate_out != None:
             intermediate_out = 'inversed_false_filtered_only_true'
-        final_out = 'inversed_false_filtered_by_chr_midpoints'
+        final_out = f'_inversed_false_filtered_by_chr{is_midpoint}'
     else:
         if args.intermediate_out != None:
             intermediate_out = 'inversed_true_filtered_only_true'
-        final_out = 'inversed_true_filtered_by_chr_midpoints'
+        final_out = f'_inversed_true_filtered_by_chr{is_midpoint}'
 else:
     intermediate_out = None
-    final_out = 'midpoints'
+    final_out = f'{is_midpoint}'
 
 score_treshold = args.score_treshold
 
@@ -82,13 +90,19 @@ for bed_f in input_bed_files.glob('*.bed'):
         intermediate_output_file_path = None
 
     if score_treshold == 0.:
-        final_output_file_path = output_dir / f'{protein}_{final_out}.bed'
+        final_output_file_path = output_dir / f'{protein}{final_out}.bed'
     else:
-        final_output_file_path = output_dir / f'{protein}_{final_out}_score_filtered.bed'
+        final_output_file_path = output_dir / f'{protein}{final_out}_score_filtered.bed'
 
     bedfile = pybedtools.BedTool(bed_f)
+
     bedfile.filter(by_chr_filtering, chr_list, inverse)\
-        .saveas(intermediate_output_file_path)\
-        .filter(score_filtering, score_treshold)\
-        .each(midpoint)\
+        .saveas(intermediate_output_file_path)
+
+    if midpoint_arg == True:
+        bedfile.each(midpoint)
+    else:
+        pass
+
+    bedfile.filter(score_filtering, score_treshold)\
         .saveas(final_output_file_path)
