@@ -10,11 +10,12 @@ parser.add_argument('--infile', '-in', type=str, required=True,
 parser.add_argument('--reference', '-r', type=str, required=True,
     help='Absolute Path to the preprocessed fasta file containing all\
     necessary chromosomes')
-parser.add_argument('--strandness', '-s', type=bool, default=True,
-    help='Apply stradness? Default = True')
-parser.add_argument('--format', '-f', type=bool, default=True,
-    help='Choose the format of output bed file. By default (True)\
-         are header and extracted sequence in tab delimited format')
+parser.add_argument('--strandness', '-s', type=bool, default=False,
+    help='Apply stradness? Default = False')
+parser.add_argument('--format', '-f', type=bool, default=False,
+    help='Choose the format of output bed file. By default (False)\
+         are header and extracted sequence on separate lines\
+         True is tab delimited format')
 parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')                
 args = parser.parse_args()

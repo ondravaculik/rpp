@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--same_strands_only', '-sso', type=bool, default=True, 
+parser.add_argument('--same_strands_only', '-sso', type=bool, default=False, 
     help='Intersect only positions on the same strands? default = True')
 parser.add_argument('--transcriptome', '-tr', type=str, required=True, 
     help='Path to the transcriptome bedfile')
