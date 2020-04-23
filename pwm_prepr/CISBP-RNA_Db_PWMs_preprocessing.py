@@ -5,26 +5,26 @@ import datetime
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--ppm_directory', '-ppmd', type=str,
+parser.add_argument('--pwm_directory', '-pwmd', type=str, required=True,
     help='Relative or absolute path to the folder\
-         containing one or multiple PPMs', required=True)
+         containing one or multiple PWMs')
 parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
 
 p = Path(args.outfile)
-ppm_files = Path(args.ppm_directory)
+pwm_files = Path(args.pwm_directory)
 
 # creating dict of np.arrays with all users PPMs
 # extracting protein_name from the name of PPM file
 all_ppms = {}
-for ppm in ppm_files.glob('*.txt'):
+for pwm in pwm_files.glob('*.txt'):
     name = ''
-    with open(ppm) as f:
+    with open(pwm) as f:
         current_ppm = []
 
-        file_name = Path(ppm).stem
+        file_name = Path(pwm).stem
         try: 
             index = file_name.index('.')
         except ValueError: 
