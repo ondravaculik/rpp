@@ -3,7 +3,7 @@
 ## Documentation
 (*full documentation to be done*)
 
-### Tools description:
+### List of tools and their arguments:
 #### Bedfile preprocessing
 ##### bedfile_processing_filtering_and_midpoints.py
 - *chromosomes* (chr1,chr2,chr3 etc.) - optional, for filtering (def. ‘’)
