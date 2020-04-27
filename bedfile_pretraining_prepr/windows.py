@@ -1,5 +1,6 @@
 import argparse
 import pybedtools
+import time
 import numpy as np
 from pathlib import Path
 
@@ -39,8 +40,13 @@ args = parser.parse_args()
 
 window_size = args.window_size
 
+p = Path(args.outfile)
 bed_files = Path(args.infile)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'windows', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 for bedfile in bed_files.glob('*.bed'):

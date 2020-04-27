@@ -1,6 +1,6 @@
 import argparse
 import numpy as np
-import datetime
+import time
 from pathlib import Path
 
 
@@ -31,10 +31,10 @@ for i in range(args.number):
 
 # preparing output files and folders
 p = Path(args.outfile)
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 
 # preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', f'{dt}')
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'random', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 
 for header, ppm in random_ppms.items():

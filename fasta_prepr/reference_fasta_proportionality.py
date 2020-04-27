@@ -1,6 +1,6 @@
 from pathlib import Path
 import argparse, sys
-import datetime
+import time
 
 
 parser = argparse.ArgumentParser()
@@ -45,10 +45,10 @@ for name, length in all_references.items():
     ref_proportionality[name] = proportionality_of_positions
 
 p = Path(args.outfile)
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 
 # preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_proportions', f'{dt}')
+output_folder = Path(f'{p}', 'results', 'preprocessed_references', 'proportions',  f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 output_file_path = output_folder / f'references_proportions.txt'
 

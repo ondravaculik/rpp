@@ -1,5 +1,5 @@
 from pathlib import Path
-from datetime import date
+import time
 import argparse
 
 
@@ -33,8 +33,8 @@ for reference in ref_files.glob('*.fa*'):
     chr_sequence = ''
     
 # preparing files and folders
-d = date.today().isoformat()
-output_folder = Path(f'{p}', 'processed_references', f'{d}', 'all_in_one')
+ts = time.time()
+output_folder = Path(f'{p}', 'results', 'preprocessed_references', 'all_in_one', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 output_file_path = output_folder / f'all_references.fasta'
 

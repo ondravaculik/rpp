@@ -1,6 +1,7 @@
 import argparse
 import pybedtools
 import numpy as np
+import time
 from pathlib import Path
 
 
@@ -20,9 +21,13 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')                
 args = parser.parse_args()
 
-
+p = Path(args.outfile)
 bed_files = Path(args.infile)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'extracted_sequences', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 fasta = args.reference

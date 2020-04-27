@@ -1,5 +1,6 @@
 import argparse
 import pybedtools
+import time
 from pybedtools.featurefuncs import midpoint
 from pathlib import Path
 
@@ -49,7 +50,11 @@ args = parser.parse_args()
 
 p = Path(args.outfile)
 input_bed_files = Path(args.infile)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'filtered_by_score_midpoints', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 intermediate_out = None

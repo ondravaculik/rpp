@@ -1,5 +1,6 @@
 import argparse
 import pybedtools
+import time
 from pathlib import Path
 
 
@@ -13,9 +14,14 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+p = Path(args.outfile)
 score_treshold = args.score_treshold
 bed_files = Path(args.infile)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'filtered_by_score', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 for bed_f in bed_files.glob('*.bed'):

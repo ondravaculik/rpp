@@ -1,5 +1,6 @@
 import argparse
 import pybedtools
+import time
 from pathlib import Path
 
 
@@ -13,9 +14,13 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
 
-
+p = Path(args.outfile)
 ref_files = Path(args.reference)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_transcriptome', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 references = [Path(reference).stem for reference in ref_files.glob('*.fa*')]

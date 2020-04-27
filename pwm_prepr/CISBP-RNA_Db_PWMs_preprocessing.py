@@ -1,7 +1,7 @@
 from pathlib import Path
 import argparse
 import numpy as np
-import datetime
+import time
 
 
 parser = argparse.ArgumentParser()
@@ -43,10 +43,10 @@ for pwm in pwm_files.glob('*.txt'):
                     current_ppm.append(ppm_part)    
         all_ppms[protein_name] = np.asarray(current_ppm)
 
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 
 # preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', f'{dt}')
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 
 # creating output file

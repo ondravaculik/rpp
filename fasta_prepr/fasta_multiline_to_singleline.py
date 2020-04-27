@@ -1,5 +1,5 @@
 from pathlib import Path
-import datetime
+import time
 import argparse
 
 
@@ -15,11 +15,10 @@ args = parser.parse_args()
 p = Path(args.outfile)
 ref_files = Path(args.reference)
 
-# preparing files and folders
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 
 # preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_references', f'{dt}')
+output_folder = Path(f'{p}', 'results', 'preprocessed_references', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 
 # creating dict with all references

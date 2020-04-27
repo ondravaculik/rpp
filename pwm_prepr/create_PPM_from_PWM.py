@@ -1,7 +1,7 @@
 from pathlib import Path
 import argparse
 import numpy as np
-import datetime
+import time
 
 
 def get_ppm_from_pwm(position_weight):
@@ -58,10 +58,10 @@ processed_ppms = {}
 for name, pwm in all_pwms.items():
     processed_ppms[name] = np.asfarray(createProbabilityVector(pwm))
 
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 
 # preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', f'{dt}')
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 
 # creating output file

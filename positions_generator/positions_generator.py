@@ -2,7 +2,7 @@ import re
 import random
 import argparse
 import numpy as np
-import datetime
+import time
 import pybedtools
 from pathlib import Path
 from typing import List
@@ -161,9 +161,9 @@ args = parser.parse_args()
 
 
 # preparing files and folders
-dt = datetime.datetime.now().strftime("%d:%m:%Y-%H:%M")
+ts = time.time()
 p = Path(args.outfile)
-output_dirs = Path(f'{p}', 'results', 'final_random_positions', f'{dt}')
+output_dirs = Path(f'{p}', 'results', 'final_random_positions', f'{ts}')
 output_dirs.mkdir(parents=True, exist_ok=True)
 
 # preparing prerequisities

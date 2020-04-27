@@ -1,5 +1,6 @@
 import argparse
 import pybedtools
+import time
 from pathlib import Path
 
 
@@ -15,9 +16,14 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+p = Path(args.outfile)
 transcriptome_path = Path(args.transcriptome)
 bed_files = Path(args.infile)
-output_dir = Path(args.outfile)
+
+ts = time.time()
+
+# preparing output files and folders
+output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'real_positions', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
 for bed_f in bed_files.glob('*.bed'):
