@@ -5,28 +5,28 @@
 
 ### List of tools and their arguments:
 #### Bedfile preprocessing
-##### bedfile_processing_filtering_and_midpoints.py
+##### bedfile_processing_filtering_and_midpoints.py (filtering intervals by chromosomes and score; midpoints extraction)
 - *chromosomes* (chr1,chr2,chr3 etc.) - optional, for filtering (def. ‘’)
 - *inverse* (def. False) – if True, chosen chrs are included in the final output
-- *midpoints* (def. False) – if True, intervals are processed into midpoints
+- *midpoints* (def. False) – if True, midpoints are extracted from intervals
 - *score_treshold* (def. 0.) - optional, for filtering positions by score
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 - *intermediate_out* (def. None) – rel/abs path to directory to save intermediate file filtered by chrs
 
-##### real_positions.py
+##### real_positions.py (keeping only intervals that are part of transcriptome bedfile)
 - *same_strands_only* (def. False) – intersect only the same strands
 - *transcriptome* – required – rel/abs path to folder with preprocessed transcriptome bedfile
 	- preprocessing = textfile_to_bed.py
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### score_filter.py
+##### score_filter.py (filtering by score)
 - *score_treshold* (def. 6.) - optional, for filtering positions by score
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### sequence_extractor.py
+##### sequence_extractor.py (generating outputs with interval information and extracted sequence)
 - *format* (def. False) – if True, format is tab delimited (header /tab sequence) (False = separate lines)
 - *reference* – required – rel/abs path to the preprocessed fasta file with all references
   - preprocessing = all_ref_1_file_simple_headers.py
@@ -34,31 +34,31 @@
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### textfile_to_bed.py
+##### textfile_to_bed.py (processing text file with intervals into formated bedfile)
 - *infile* – required – rel/abs path to input file (e.g. downloaded transcriptome.bed/txt which needs to be preprocessed into right format)
 - *outfile* – required – rel/abs path to output file (specified name with .bed extension)
   
-##### windows.py
+##### windows.py (extending intervals to defined length)
 - *window_size* (def. 50) – intervals extended/shrinked to different length
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 
 #### Fasta preprocessing
-##### all_ref_1_file_simple_headers.py
+##### all_ref_1_file_simple_headers.py (processing provided fasta files into one output)
 - *reference* – required – rel/abs path to folder with reference fasta files (must have changed file names into simple chromosome headers – e.g. chr1.fa, chrY.fa etc.)
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### fasta_multiline_to_singleline.py
+##### fasta_multiline_to_singleline.py (processing provided multiline sequence fasta files into oneline format)
 - *reference* – required – rel/abs path to folder with reference fasta files (must have changed file names into simple chromosome headers – e.g. chr1.fa, chrY.fa etc.)
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### reference_fasta_proportionality.py
+##### reference_fasta_proportionality.py (creating file with counted proportions and lengths of provided references)
 - *prepr_ref* – required - rel/abs path to folder with preprocessed reference fasta files (must have changed 	file names into simple chromosome headers – e.g. chr1.fa) 
 	- preprocessing = fasta_multiline_to_singleline.py
 - *outfile* (def. . ) - rel/abs path to output directory
 
 #### Random positions generator
-##### positions_generator.py
+##### positions_generator.py (producing bedfile with random intervals according to preprocessed PPMs)
 - *alphabet* (def. [‘A’, ‘C’, ‘G’, ‘T’]) - list of nucleotides in order corresponding to PWM
 - *datasize* (def. 10000) – number of intervals to create
 - *position_probability_matrix* – required – rel/abs path to folder with preprocessed PPMs
@@ -70,21 +70,21 @@
 - *outfile* (def. . ) - rel/abs path to output directory
 
 #### PWM preprocessing
-##### CISBP-RNA_Db_PWMs_preprocessing.py
+##### CISBP-RNA_Db_PWMs_preprocessing.py (preprocessing of PWM text files downloaded from CISBP-RNA Database) 
 - *pwm_directory* – required - rel/abs path to folder with pwms downloaded from CISBP Db
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### create_PPM_from_PWM.py
+##### create_PPM_from_PWM.py (preprocessing of PWM text files downloaded from HOmo sapiens COmprehensive MOdel COllection)
 - *prob_weight_matrix* – required – rel/abs path to folder with PWMs downloaded from e.g. https://hocomoco11.autosome.ru/
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### create_random_PPM.py
+##### create_random_PPM.py (generating files with random PPM)
 - *number* (def. 1) – number of random Probability Position Matrix to create
 - *seq_length* (def. 8) – specify length of the created PPM/PPMs
 - *outfile* (def. . ) - rel/abs path to output directory
 
 #### Transcriptome preprocessing
-##### transcriptome_processing_and_filtering.py
+##### transcriptome_processing_and_filtering.py (filtering out intervals that are not involved in provided references)
 - *reference* – required – rel/abs path to the preprocessed fasta file with all references
 	- preprocessing = all_ref_1_file_simple_headers.py
 - *transcriptome* – required – rel/abs path to folder with preprocessed transcriptome bedfile
