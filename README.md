@@ -141,7 +141,7 @@
     1. bed_processing_filtering_and_midpoints.py
        $ python tools/bedfile_prepr/bed_processing_filtering_and_midpoints.py\
        --midpoints True\
-       --score_treshold\
+       --score_treshold 7.\
        --infile path/to/final_random_positions/ 
     2. real_positions.py
        $ python tools/bedfile_prepr/real_positions.py\
