@@ -48,15 +48,16 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+# preparing output folder
+ts = time.time()
+
 p = Path(args.outfile)
 input_bed_files = Path(args.infile)
 
-ts = time.time()
-
-# preparing output files and folders
 output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'filtered_by_score_midpoints', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# checking arguments, preparing output names
 intermediate_out = None
 inverse = args.inverse 
 midpoint_arg = args.midpoints
@@ -86,6 +87,7 @@ else:
 
 score_treshold = args.score_treshold
 
+# bedfiles processing
 for bed_f in input_bed_files.glob('*.bed'):
     protein = Path(bed_f).stem
 
@@ -99,15 +101,17 @@ for bed_f in input_bed_files.glob('*.bed'):
     else:
         final_output_file_path = output_dir / f'{protein}{final_out}_score_filtered.bed'
 
-    bedfile = pybedtools.BedTool(bed_f)
-
-    bedfile.filter(by_chr_filtering, chr_list, inverse)\
+    # chromosome filtering, possible saving intermediate output
+    chr_filtered_bedfile = pybedtools.BedTool(bed_f)\
+        .filter(by_chr_filtering, chr_list, inverse)\
         .saveas(intermediate_output_file_path)
-
+    
+    # possible turning intervals into the midpoints
     if midpoint_arg == True:
-        bedfile.each(midpoint)
+        final_bedfile = chr_filtered_bedfile.each(midpoint)
     else:
-        pass
+        final_bedfile = chr_filtered_bedfile
 
-    bedfile.filter(score_filtering, score_treshold)\
+    # score filtering and saving final output
+    final_bedfile.filter(score_filtering, score_treshold)\
         .saveas(final_output_file_path)

@@ -24,12 +24,18 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+# preparing files and folders
+ts = time.time()
+
 p = Path(args.outfile)
-input_file = Path(args.pwm)
-suffix = input_file.suffix
+
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
+output_folder.mkdir(parents=True, exist_ok=True)
 
 # creating dict of np.arrays with all users PWMs
-all_pwms = {}
+input_file = Path(args.prob_weight_matrix)
+processed_ppms = {}
+
 with open(input_file) as f:
     motif_name = ''
     pwm = []
@@ -40,31 +46,26 @@ with open(input_file) as f:
         elif i < len(lines)-1:
             if line.startswith('>'):
                 if motif_name == '':
-                    motif_name = line.strip()
+                    motif_name = line.strip() 
                 else:
-                    all_pwms[motif_name] = np.asarray(pwm)
+                    processed_ppms[motif_name] = np.asfarray(
+                        createProbabilityVector(np.asarray(pwm)))
                     motif_name = line.strip()
-                    pwm = []
+                    pwm = []                               
+            else:
+                position_pwm = [float(pos) for pos in line.strip().split()]
+                pwm.append(position_pwm)                
+        else:
+            if line.strip() == '':
+                processed_ppms[motif_name] = np.asfarray(
+                    createProbabilityVector(np.asarray(pwm)))
             else:
                 position_pwm = [float(pos) for pos in line.strip().split()]
                 pwm.append(position_pwm)
-        else:
-            position_pwm = [float(pos) for pos in line.strip().split()]
-            pwm.append(position_pwm)
-            all_pwms[motif_name] = np.asarray(pwm)
+                processed_ppms[name] = np.asfarray(
+                    createProbabilityVector(np.asarray(pwm)))
 
-# processing every PWM in the dict into a new one with PPMs
-processed_ppms = {}
-for name, pwm in all_pwms.items():
-    processed_ppms[name] = np.asfarray(createProbabilityVector(pwm))
-
-ts = time.time()
-
-# preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
-output_folder.mkdir(parents=True, exist_ok=True)
-
-# creating output file
+# processing output files
 for header, ppm in processed_ppms.items():
     output_file = f'{header[1:]}'
     output_file_path = output_folder / output_file
