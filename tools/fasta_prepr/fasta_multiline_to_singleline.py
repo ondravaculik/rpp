@@ -12,16 +12,16 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+# preparing files and folders
+ts = time.time()
+
 p = Path(args.outfile)
 ref_files = Path(args.reference)
 
-ts = time.time()
-
-# preparing output files and folders
 output_folder = Path(f'{p}', 'results', 'preprocessed_references', f'{ts}')
 output_folder.mkdir(parents=True, exist_ok=True)
 
-# creating dict with all references
+# processing formated outputs
 for reference in ref_files.glob('*.fa*'):
     name = ''
     header = ''

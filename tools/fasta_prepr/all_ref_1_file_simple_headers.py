@@ -11,11 +11,17 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
+# preparing files and folders
+ts = time.time()
 
 p = Path(args.outfile)
 ref_files = Path(args.reference)
 
 references = {}
+
+output_folder = Path(f'{p}', 'results', 'preprocessed_references', 'all_in_one', f'{ts}')
+output_folder.mkdir(parents=True, exist_ok=True)
+output_file_path = output_folder / f'all_references.fasta'
 
 # creating dict with all references
 for reference in ref_files.glob('*.fa*'):
@@ -31,13 +37,8 @@ for reference in ref_files.glob('*.fa*'):
                 chr_sequence += line.strip()
     references[chr_name] = chr_sequence
     chr_sequence = ''
-    
-# preparing files and folders
-ts = time.time()
-output_folder = Path(f'{p}', 'results', 'preprocessed_references', 'all_in_one', f'{ts}')
-output_folder.mkdir(parents=True, exist_ok=True)
-output_file_path = output_folder / f'all_references.fasta'
 
+# processing final fasta file    
 with output_file_path.open("w", encoding ="utf-8") as of:
     for chr_name, chr_sequence in references.items():
         of.write(f'>{chr_name}\n')

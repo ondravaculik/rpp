@@ -13,17 +13,17 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
 
+# preparing files and folders
+ts = time.time()
 
 p = Path(args.outfile)
 score_treshold = args.score_treshold
 bed_files = Path(args.infile)
 
-ts = time.time()
-
-# preparing output files and folders
 output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'filtered_by_score', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# bedfiles processing
 for bed_f in bed_files.glob('*.bed'):
     bedfile = pybedtools.BedTool(bed_f)
     protein = Path(bed_f).stem

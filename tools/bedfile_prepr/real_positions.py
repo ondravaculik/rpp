@@ -15,17 +15,17 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')               
 args = parser.parse_args()
 
+# preparing files and folders
+ts = time.time()
 
 p = Path(args.outfile)
 transcriptome_path = Path(args.transcriptome)
 bed_files = Path(args.infile)
 
-ts = time.time()
-
-# preparing output files and folders
 output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'real_positions', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# bedfiles processing
 for bed_f in bed_files.glob('*.bed'):
     transcriptome = pybedtools.BedTool(transcriptome_path)
     bedfile = pybedtools.BedTool(bed_f)
@@ -33,6 +33,7 @@ for bed_f in bed_files.glob('*.bed'):
     output_file_name = protein + '_onlytrue.bed'
     output_file_path = output_dir / output_file_name
     
+    # output processing according to same_strands_only argument
     if args.same_strands_only == True:
         bedfile.intersect(transcriptome, u=True, wa=True, s=True)\
         .saveas(output_file_path)

@@ -21,22 +21,24 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+# preparing files and folders
+ts = time.time()
+
+p = Path(args.outfile)
+
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'random', f'{ts}')
+output_folder.mkdir(parents=True, exist_ok=True)
+
+# creating dict with random PPMs
 seq_length = args.seq_length
 
 random_ppms = {}
 for i in range(args.number):
-    header = f'random_{i+1}'
+    header = f'random_{i+1}_length_{seq_length}'
     ppm = randomPPMcreator(seq_length)
     random_ppms[header] = ppm
 
-# preparing output files and folders
-p = Path(args.outfile)
-ts = time.time()
-
-# preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'random', f'{ts}')
-output_folder.mkdir(parents=True, exist_ok=True)
-
+# processing output files
 for header, ppm in random_ppms.items():
     output_file = f'{header}'
     output_file_path = output_folder / output_file

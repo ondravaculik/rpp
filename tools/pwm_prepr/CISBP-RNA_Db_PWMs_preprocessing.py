@@ -13,11 +13,17 @@ parser.add_argument('--outfile', '-out', type=str, default='.',
 args = parser.parse_args()
 
 
+# preparing files and folders
+ts = time.time()
+
 p = Path(args.outfile)
 pwm_files = Path(args.pwm_directory)
 
-# creating dict of np.arrays with all users PPMs
-# extracting protein_name from the name of PPM file
+output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
+output_folder.mkdir(parents=True, exist_ok=True)
+
+# creating dict of np.arrays with all users PWMs
+# extracting protein_name from the name of PWM file
 all_ppms = {}
 for pwm in pwm_files.glob('*.txt'):
     name = ''
@@ -43,13 +49,7 @@ for pwm in pwm_files.glob('*.txt'):
                     current_ppm.append(ppm_part)    
         all_ppms[protein_name] = np.asarray(current_ppm)
 
-ts = time.time()
-
-# preparing output files and folders
-output_folder = Path(f'{p}', 'results', 'preprocessed_pwms', 'real', f'{ts}')
-output_folder.mkdir(parents=True, exist_ok=True)
-
-# creating output file
+# processing output files
 for protein_name, matrix in all_ppms.items():
     output_file = f'{protein_name}'
     output_file_path = output_folder / output_file

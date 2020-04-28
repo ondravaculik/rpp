@@ -29,26 +29,28 @@ def window(line):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--infile', '-in', type=str, required=True,
-    help='Absolute Path to bedfiles with protein binding sites positions')
 parser.add_argument('--window_size', '-ws', type=int, default=50,
     help='Define window size for each bedfile position, default=50')
+parser.add_argument('--infile', '-in', type=str, required=True,
+    help='Absolute Path to bedfiles with protein binding sites positions')
 parser.add_argument('--outfile', '-out', type=str, default='.',
     help='Specify absolute or relative path to output directory, default = .')                
 args = parser.parse_args()
 
 
-window_size = args.window_size
+# preparing files and folders
+ts = time.time()
 
 p = Path(args.outfile)
 bed_files = Path(args.infile)
 
-ts = time.time()
-
-# preparing output files and folders
 output_dir = Path(f'{p}', 'results', 'preprocessed_bedfiles', 'windows', f'{ts}')
 output_dir.mkdir(parents=True, exist_ok=True)
 
+# taking arguments
+window_size = args.window_size
+
+# bedfiles processing
 for bedfile in bed_files.glob('*.bed'):
     bed_path = Path(bedfile)
     output_file_name = bed_path.stem + f'_window-{window_size}.bed'

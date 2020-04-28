@@ -146,17 +146,17 @@ parser.add_argument('--alphabet', '-a', default=['A', 'C', 'G', 'T'],
 parser.add_argument('--datasize', '-ds', default=10000, type=int,
     help='Number that specifies how many training positions user wants to create, \
         default = 10000')
-parser.add_argument('--reference', '-r', type=str, required=True,
-    help='Relative or absolute path to the folder containing preprocessed \
-        reference fasta files')
-parser.add_argument('--outfile', '-out', type=str, default='.',
-    help='Specify absolute or relative path to output directory, default = .')
 parser.add_argument('--position_probability_matrix', '-ppm', type=str, required=True,
     help='Name of the folder containing one or more preprocessed PPMs; \
         random PPM is created by default')
 parser.add_argument('--proportions', '-prop', type=str, required=True,
     help='Relative or absolute path to the folder containing text file \
-        with reference names and their proportions')                    
+        with reference names and their proportions')           
+parser.add_argument('--reference', '-r', type=str, required=True,
+    help='Relative or absolute path to the folder containing preprocessed \
+        reference fasta files')
+parser.add_argument('--outfile', '-out', type=str, default='.',
+    help='Specify absolute or relative path to output directory, default = .')
 args = parser.parse_args()
 
 
