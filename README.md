@@ -26,10 +26,6 @@
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
 
-##### textfile_to_bed.py
-- *infile* – required – rel/abs path to input file (e.g. downloaded transcriptome.bed/txt which needs to be preprocessed into right format)
-- *outfile* – required – rel/abs path to output file (specified name with .bed extension)
-
 ##### sequence_extractor.py
 - *format* (def. False) – if True, format is tab delimited (header /tab sequence) (False = separate lines)
 - *reference* – required – rel/abs path to the preprocessed fasta file with all references
@@ -37,6 +33,10 @@
 - *strandness* (def. False) – apply strandness if True
 - *infile* – required – rel/abs path to folder with inputs
 - *outfile* (def. . ) - rel/abs path to output directory
+
+##### textfile_to_bed.py
+- *infile* – required – rel/abs path to input file (e.g. downloaded transcriptome.bed/txt which needs to be preprocessed into right format)
+- *outfile* – required – rel/abs path to output file (specified name with .bed extension)
   
 ##### windows.py
 - *window_size* (def. 50) – intervals extended/shrinked to different length
@@ -106,9 +106,9 @@
   options = region: genome (otherwise default)
 
 #### File Examples:
-- *Reference FASTA files:* chr21, chr22, chrY
 - *CISBP-RNA Db PWMs:* PUM2, QKI
 - *HOMOCOMO type PWMs:* homocomo_train_pwm
+- *Reference FASTA files:* chr21, chr22, chrY
 - *UCSC transcriptome:* transcriptome
 
 ##### Reference fasta files preprocessing
