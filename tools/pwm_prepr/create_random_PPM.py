@@ -36,7 +36,7 @@ random_ppms = {}
 for i in range(args.number):
     header = f'random_{i+1}_length_{seq_length}'
     ppm = randomPPMcreator(seq_length)
-    random_ppms[header] = ppm
+    random_ppms[header] = np.asarray(ppm)
 
 # processing output files
 for header, ppm in random_ppms.items():
